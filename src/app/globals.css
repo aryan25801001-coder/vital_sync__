@@ -1,0 +1,309 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --neon-cyan: #00f5ff;
+    --neon-cyan-dim: #00c8d4;
+    --neon-red: #ff3b6b;
+    --neon-green: #00ff88;
+    --neon-amber: #ffa500;
+    --bg-primary: #020b18;
+    --bg-secondary: #040f1f;
+    --bg-card: rgba(0, 245, 255, 0.04);
+    --border-glow: rgba(0, 245, 255, 0.2);
+    --text-primary: #e8f4f8;
+    --text-muted: #7a9ab0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Neon Glow Utilities */
+.neon-text {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.8), 0 0 30px rgba(0, 245, 255, 0.4), 0 0 60px rgba(0, 245, 255, 0.2);
+}
+
+.neon-border {
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.3), inset 0 0 10px rgba(0, 245, 255, 0.05);
+}
+
+.glass-card {
+    background: rgba(0, 245, 255, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 245, 255, 0.15);
+    border-radius: 16px;
+}
+
+.glass-card-red {
+    background: rgba(255, 59, 107, 0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 59, 107, 0.25);
+    border-radius: 16px;
+}
+
+.glass-card-green {
+    background: rgba(0, 255, 136, 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    border-radius: 16px;
+}
+
+/* Pulse Animations */
+@keyframes pulse-neon {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(0, 245, 255, 0.5), 0 0 20px rgba(0, 245, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 245, 255, 0.9), 0 0 60px rgba(0, 245, 255, 0.6), 0 0 100px rgba(0, 245, 255, 0.3);
+    }
+}
+
+@keyframes pulse-red {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(255, 59, 107, 0.6), 0 0 20px rgba(255, 59, 107, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 25px rgba(255, 59, 107, 1), 0 0 60px rgba(255, 59, 107, 0.7);
+    }
+}
+
+@keyframes pulse-green {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.9), 0 0 50px rgba(0, 255, 136, 0.5);
+    }
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+@keyframes grid-move {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 50px 50px;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    14% {
+        transform: scale(1.15);
+    }
+
+    28% {
+        transform: scale(1);
+    }
+
+    42% {
+        transform: scale(1.1);
+    }
+
+    70% {
+        transform: scale(1);
+    }
+}
+
+@keyframes data-stream {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    10% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+}
+
+@keyframes radar-sweep {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes blink-alert {
+
+    0%,
+    49% {
+        background: rgba(255, 59, 107, 0.15);
+        border-color: rgba(255, 59, 107, 0.5);
+    }
+
+    50%,
+    100% {
+        background: rgba(255, 59, 107, 0.35);
+        border-color: rgba(255, 59, 107, 1);
+    }
+}
+
+.pulse-neon {
+    animation: pulse-neon 2s ease-in-out infinite;
+}
+
+.pulse-red {
+    animation: pulse-red 1.5s ease-in-out infinite;
+}
+
+.pulse-green {
+    animation: pulse-green 2s ease-in-out infinite;
+}
+
+.float-anim {
+    animation: float 4s ease-in-out infinite;
+}
+
+.heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.blink-alert {
+    animation: blink-alert 0.8s ease-in-out infinite;
+}
+
+/* Grid background */
+.grid-bg {
+    background-image:
+        linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 245, 255, 0.3);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 245, 255, 0.6);
+}
+
+/* Status dots */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-critical {
+    background: #ff3b6b;
+    animation: pulse-red 1s infinite;
+}
+
+.status-active {
+    background: #00ff88;
+    animation: pulse-green 2s infinite;
+}
+
+.status-pending {
+    background: #ffa500;
+}
+
+/* EKG Line */
+@keyframes ekg {
+    0% {
+        stroke-dashoffset: 1000;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+.ekg-line {
+    stroke-dasharray: 1000;
+    animation: ekg 3s linear infinite;
+}
+
+/* Gradient text */
+.gradient-text {
+    background: linear-gradient(135deg, #00f5ff, #0080ff, #00ff88);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Hexagon */
+.hex-bg {
+    background: radial-gradient(ellipse at center, rgba(0, 245, 255, 0.08) 0%, transparent 70%);
+}

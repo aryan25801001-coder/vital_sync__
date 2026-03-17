@@ -1,0 +1,350 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import {
+    Activity, AlertTriangle, ArrowLeft, Brain, CheckCircle,
+    Clock, FileText, Heart, Shield, Truck, User, Wifi, Zap
+} from 'lucide-react';
+import VitalSigns from '@/components/VitalSigns';
+import { MOCK_PATIENTS, MOCK_REFERRALS } from '@/data/mockData';
+import { useRealtime } from '@/hooks/useSocket';
+
+export default function ReceiverPage() {
+    const { notifications } = useRealtime();
+    const [activeReferral, setActiveReferral] = useState<any>(MOCK_REFERRALS[0]);
+    const [activePatient, setActivePatient] = useState<any>(MOCK_PATIENTS[0]);
+    const [currentTime, setCurrentTime] = useState(new Date());
+    const [packetReceived, setPacketReceived] = useState(false);
+    const [countdown, setCountdown] = useState(480); // 8 min in seconds
+    const [readinessChecked, setReadinessChecked] = useState<Record<string, boolean>>({});
+
+    useEffect(() => {
+        if (notifications.length > 0) {
+            const latest = notifications[0];
+            if (latest.type === 'new_referral') {
+                // Find patient from mock or notification data
+                const p = MOCK_PATIENTS.find(p => p.id === latest.referralId) || {
+                    id: latest.referralId,
+                    name: 'Synced Patient',
+                    age: '??',
+                    bloodType: '??',
+                    condition: latest.message,
+                    vitals: { hr: 90, bp: '120/80', spo2: 98, gcs: 15 },
+                    severity: latest.urgency,
+                    allergies: [],
+                };
+                setActivePatient(p);
+                setActiveReferral({
+                    ...latest,
+                    fromHospital: latest.message.split('from ')[1]?.split(' →')[0] || 'Sender'
+                });
+            }
+        }
+    }, [notifications]);
+
+    useEffect(() => {
+        const t = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(t);
+    }, []);
+
+    useEffect(() => {
+        // Simulate packet arrival
+        const t = setTimeout(() => setPacketReceived(true), 2000);
+        return () => clearTimeout(t);
+    }, []);
+
+    useEffect(() => {
+        if (countdown <= 0) return;
+        const t = setInterval(() => setCountdown(c => Math.max(0, c - 1)), 1000);
+        return () => clearInterval(t);
+    }, [countdown]);
+
+    const toggleCheck = (item: string) => {
+        setReadinessChecked(prev => ({ ...prev, [item]: !prev[item] }));
+    };
+
+    const readinessItems = [
+        { id: 'trauma_bay', label: 'Trauma Bay 3 Cleared', category: 'room', icon: '🏥' },
+        { id: 'neuro_team', label: 'Neurosurgery Team Alerted', category: 'staff', icon: '👨‍⚕️' },
+        { id: 'ct_ready', label: 'CT Scanner Pre-warmed', category: 'equipment', icon: '📡' },
+        { id: 'blood_ready', label: 'Type B+ Blood Ready (4 units)', category: 'supplies', icon: '🩸' },
+        { id: 'icu_reserved', label: 'ICU Bed 4A Reserved', category: 'room', icon: '🛏️' },
+        { id: 'penicillin_alert', label: 'Penicillin Allergy Flagged System-wide', category: 'alert', icon: '⚠️' },
+        { id: 'anesthesia', label: 'Anesthesia Team On Standby', category: 'staff', icon: '💉' },
+        { id: 'or_ready', label: 'OR #2 Prepped for Craniotomy', category: 'equipment', icon: '🔬' },
+        { id: 'ventilator', label: 'Ventilator Unit Sync\'d & Tested', category: 'equipment', icon: '🛠️' },
+        { id: 'ecg_bypass', label: 'ECG Bypass Protocol Initialized', category: 'alert', icon: '📉' },
+        { id: 'pharmacy_priority', label: 'Pharmacy Stat Order Processed', category: 'supplies', icon: '💊' },
+        { id: 'lab_priority', label: 'Lab Techs on High-Priority Alert', category: 'staff', icon: '🧪' },
+        { id: 'rapid_infuser', label: 'Rapid Infuser System Prepared', category: 'equipment', icon: '⚡' },
+        { id: 'xray_notify', label: 'X-Ray Department Notified', category: 'staff', icon: '📷' },
+        { id: 'social_worker', label: 'Social Worker Assigned to Case', category: 'staff', icon: '🤝' },
+        { id: 'belongings', label: 'Patient Belongings Inventory Form Ready', category: 'supplies', icon: '🎒' },
+    ];
+
+    const readinessCount = Object.values(readinessChecked).filter(Boolean).length;
+    const readinessPct = Math.round((readinessCount / readinessItems.length) * 100);
+
+    const mins = Math.floor(countdown / 60);
+    const secs = countdown % 60;
+    const isUrgent = countdown < 120;
+
+    return (
+        <div className="min-h-screen grid-bg">
+            {/* Top Bar */}
+            <header className="border-b border-purple-500/15 backdrop-blur-xl sticky top-0 z-50">
+                <div className="px-6 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Link href="/" className="flex items-center gap-1 text-slate-400 hover:text-purple-400 transition-colors text-sm">
+                            <ArrowLeft size={14} />
+                            Logout
+                        </Link>
+                        <div className="w-px h-4 bg-slate-700" />
+                        <div className="flex items-center gap-2">
+                            <Activity size={18} className="text-purple-400" />
+                            <span className="font-black text-white">Vital<span className="text-purple-400">Sync</span></span>
+                            <span className="text-xs text-slate-500 font-mono italic">RECEIVER NODE</span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-6 text-xs">
+                        <div className="flex items-center gap-1.5 font-bold text-purple-400 border border-purple-400/30 px-2 py-1 rounded bg-purple-400/10">
+                            HOSPITAL B (RECEIVER)
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                            <span className="text-green-400 font-mono text-[10px]">VITALS YNC CONNECTED</span>
+                        </div>
+                        <div suppressHydrationWarning className="font-mono text-purple-300">{currentTime.toLocaleTimeString()}</div>
+                    </div>
+                </div>
+            </header>
+
+            {/* Pre-arrival packet banner */}
+            <AnimatePresence>
+                {packetReceived && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        className="bg-purple-500/10 border-b border-purple-500/30 px-6 py-3 flex items-center gap-3"
+                    >
+                        <Zap size={16} className="text-purple-400" />
+                        <span className="text-sm text-purple-300 font-bold">PRE-ARRIVAL PACKET RECEIVED</span>
+                        <span className="text-sm text-slate-400">— Patient vitals, imaging, and allergies synced via VitalSync FHIR bridge. Zero data entry required.</span>
+                        <CheckCircle size={14} className="text-green-400 ml-auto" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+
+                {/* ETA Countdown + Patient Banner */}
+                <div className="grid md:grid-cols-3 gap-6">
+                    {/* Countdown */}
+                    <motion.div
+                        animate={isUrgent ? { borderColor: ['rgba(255,59,107,0.3)', 'rgba(255,59,107,0.9)', 'rgba(255,59,107,0.3)'] } : {}}
+                        transition={{ duration: 1, repeat: Infinity }}
+                        className={`glass-card p-6 flex flex-col items-center justify-center text-center ${isUrgent ? 'border-red-500/50' : 'border-purple-500/30'}`}
+                    >
+                        <div className="flex items-center gap-2 mb-3">
+                            <Truck size={14} className={isUrgent ? 'text-red-400' : 'text-purple-400'} />
+                            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Ambulance ETA</span>
+                        </div>
+                        <div
+                            className="text-6xl font-black font-mono"
+                            style={{
+                                color: isUrgent ? '#ff3b6b' : '#a855f7',
+                                textShadow: isUrgent ? '0 0 30px rgba(255,59,107,0.8)' : '0 0 30px rgba(168,85,247,0.6)',
+                            }}
+                        >
+                            {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
+                        </div>
+                        <div className="text-xs text-slate-500 mt-2">Unit AMB-07 · {activeReferral.fromHospital}</div>
+                        <div className="mt-3 w-full bg-slate-800 rounded-full h-2">
+                            <div
+                                className="h-full rounded-full transition-all duration-1000"
+                                style={{
+                                    width: `${100 - (countdown / 480) * 100}%`,
+                                    background: isUrgent ? '#ff3b6b' : '#a855f7',
+                                }}
+                            />
+                        </div>
+                    </motion.div>
+
+                    {/* Patient Identity */}
+                    <div className="glass-card p-6 md:col-span-2">
+                        <div className="flex items-start justify-between mb-4">
+                            <div>
+                                <div className="flex items-center gap-2 mb-1">
+                                    <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                    <span className="text-xs text-red-400 font-bold uppercase tracking-widest">INCOMING CRITICAL PATIENT</span>
+                                </div>
+                                <h1 className="text-3xl font-black text-white">{activePatient.name}</h1>
+                                <div className="text-slate-400 text-sm mt-1">
+                                    Age {activePatient.age} · {activePatient.bloodType} · MRN: <span className="font-mono text-cyan-300">{activePatient.mrn || 'PENDING'}</span>
+                                </div>
+                            </div>
+                            <div className="flex flex-col items-end gap-1">
+                                <div className={`text-xs font-bold px-3 py-1 rounded-full border ${activePatient.severity === 'critical' ? 'border-red-500/50 text-red-400 bg-red-500/10 pulse-red' : 'border-orange-500/50 text-orange-400 bg-orange-500/10'}`}>
+                                    {activePatient.severity === 'critical' ? 'ESI LEVEL 1 — CRITICAL' : 'ESI LEVEL 2 — HIGH'}
+                                </div>
+                                <div className="text-xs text-slate-500">Triage Score: {activePatient.triageLevel || 1}</div>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <div className="text-slate-500 text-xs mb-1">Condition</div>
+                                <div className="font-bold text-red-300">{activePatient.condition}</div>
+                            </div>
+                            <div>
+                                <div className="text-slate-500 text-xs mb-1">⚠️ Allergies</div>
+                                <div className="font-bold text-amber-400">{activePatient.allergies?.join(', ') || 'NKDA'}</div>
+                            </div>
+                            <div>
+                                <div className="text-slate-500 text-xs mb-1">From Hospital</div>
+                                <div className="font-bold text-slate-300 text-xs">{activePatient.currentHospital}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Vitals + Readiness */}
+                <div className="grid md:grid-cols-2 gap-6">
+                    {/* Live Vitals */}
+                    <div className="glass-card p-5">
+                        <VitalSigns vitals={activePatient.vitals} severity={activePatient.severity} />
+                        <div className="mt-4 pt-4 border-t border-slate-800">
+                            <div className="text-xs text-slate-500 mb-2">FHIR Attachments — Pre-arrived</div>
+                            <div className="space-y-2">
+                                {[
+                                    { name: 'CT_Head_DICOM.dcm', type: 'CT Scan', size: '48.2 MB', status: '✅ Synced' },
+                                    { name: 'ER_Report_Admission.pdf', type: 'ER Report', size: '1.4 MB', status: '✅ Synced' },
+                                    { name: 'BloodWork_CBC_BMP.pdf', type: 'Lab Results', size: '0.8 MB', status: '✅ Synced' },
+                                ].map(f => (
+                                    <div key={f.name} className="flex items-center gap-2 bg-slate-800/40 rounded-lg px-3 py-2">
+                                        <FileText size={12} className="text-cyan-400" />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="text-xs font-mono text-slate-300 truncate">{f.name}</div>
+                                            <div className="text-xs text-slate-500">{f.type} · {f.size}</div>
+                                        </div>
+                                        <span className="text-xs text-green-400 flex-shrink-0">{f.status}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Readiness Checklist */}
+                    <div className="glass-card p-5">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                                <Shield size={14} className="text-cyan-400" />
+                                <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest">Pre-Arrival Readiness</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div
+                                    className="text-sm font-black font-mono"
+                                    style={{ color: readinessPct >= 75 ? '#00ff88' : readinessPct >= 50 ? '#ffa500' : '#ff3b6b' }}
+                                >
+                                    {readinessPct}%
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Progress bar */}
+                        <div className="w-full bg-slate-800 rounded-full h-2 mb-4">
+                            <motion.div
+                                animate={{ width: `${readinessPct}%` }}
+                                className="h-full rounded-full transition-all"
+                                style={{
+                                    background: readinessPct >= 75 ? '#00ff88' : readinessPct >= 50 ? '#ffa500' : '#ff3b6b',
+                                    boxShadow: `0 0 8px ${readinessPct >= 75 ? '#00ff88' : '#ffa500'}`,
+                                }}
+                            />
+                        </div>
+
+                        <div className="space-y-2 overflow-y-auto max-h-72">
+                            {readinessItems.map((item) => (
+                                <motion.div
+                                    key={item.id}
+                                    whileHover={{ scale: 1.01 }}
+                                    onClick={() => toggleCheck(item.id)}
+                                    className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all ${readinessChecked[item.id]
+                                        ? 'bg-green-500/10 border border-green-500/30'
+                                        : 'bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/20'
+                                        }`}
+                                >
+                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${readinessChecked[item.id] ? 'border-green-400 bg-green-400' : 'border-slate-600'
+                                        }`}>
+                                        {readinessChecked[item.id] && <CheckCircle size={12} className="text-black" />}
+                                    </div>
+                                    <span className="text-sm">{item.icon}</span>
+                                    <span className={`text-sm flex-1 ${readinessChecked[item.id] ? 'line-through text-slate-500' : 'text-slate-300'}`}>
+                                        {item.label}
+                                    </span>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {readinessPct === 100 && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="mt-4 p-3 rounded-xl bg-green-500/15 border border-green-500/40 text-center"
+                            >
+                                <div className="text-green-400 font-bold">✅ TEAM READY — AWAITING PATIENT</div>
+                                <div className="text-xs text-slate-400 mt-1">All systems GO for incoming transfer</div>
+                            </motion.div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Case Summary */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="glass-card p-6"
+                >
+                    <div className="flex items-center gap-2 mb-4">
+                        <Brain size={14} className="text-purple-400" />
+                        <span className="text-xs font-bold text-purple-300 uppercase tracking-widest">AI-Generated Pre-Arrival Brief</span>
+                        <span className="ml-2 text-xs text-slate-500 bg-slate-800 px-2 py-0.5 rounded">Powered by VitalSync Protocol Engine</span>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6 text-sm">
+                        <div>
+                            <h3 className="font-bold text-red-300 mb-2">⚠️ Critical Alerts</h3>
+                            <ul className="space-y-1 text-slate-400">
+                                <li>• GCS score {activePatient.vitals.gcs} — severe trauma likely</li>
+                                <li>• SpO₂ {activePatient.vitals.spo2}% — supplemental O₂ required</li>
+                                <li>• BP {activePatient.vitals.bp} — hemodynamic monitoring needed</li>
+                                <li>• Allergy Flag: {activePatient.allergies?.join(', ') || 'NONE'}</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-amber-300 mb-2">🔬 Tests Already Done</h3>
+                            <ul className="space-y-1 text-slate-400">
+                                <li>✅ CT Head (Non-contrast) — Synced</li>
+                                <li>✅ CBC, BMP, Coagulation Panel</li>
+                                <li>✅ Blood Type & Cross-match (B+)</li>
+                                <li>✅ 12-Lead ECG — Normal Sinus</li>
+                                <li>⏳ CT Chest/Abdomen — pending</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-green-300 mb-2">✅ Recommended Actions</h3>
+                            <ul className="space-y-1 text-slate-400">
+                                <li>• Neurosurgery consult IMMEDIATELY on arrival</li>
+                                <li>• Prepare OR for possible craniotomy</li>
+                                <li>• 2 large-bore IVs, transfusion protocol</li>
+                                <li>• ICP monitoring kit to trauma bay</li>
+                                <li>• No PO, NPO status from arrival</li>
+                            </ul>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </div>
+    );
+}
