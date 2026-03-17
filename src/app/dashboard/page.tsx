@@ -583,6 +583,9 @@ export default function DashboardPage() {
                                             onChange={(e) => setManualPatient({ ...manualPatient, age: e.target.value })}
                                         />
                                     </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-1">
                                         <label className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Blood Type</label>
                                         <input
@@ -652,26 +655,7 @@ export default function DashboardPage() {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Blood Type</label>
-                                        <input
-                                            type="text" placeholder="e.g. B+"
-                                            className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/50"
-                                            value={manualPatient.bloodType || ''}
-                                            onChange={(e) => setManualPatient({ ...manualPatient, bloodType: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Allergies</label>
-                                        <input
-                                            type="text" placeholder="e.g. Penicillin"
-                                            className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-cyan-500/50"
-                                            value={manualPatient.allergiesStr || ''}
-                                            onChange={(e) => setManualPatient({ ...manualPatient, allergiesStr: e.target.value })}
-                                        />
-                                    </div>
-                                </div>
+
 
                                 <button
                                     type="submit"
