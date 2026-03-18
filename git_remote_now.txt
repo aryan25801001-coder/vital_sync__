@@ -1,0 +1,2 @@
+origin	https://github.com/aryan25801001-coder/vital_sync__.git (fetch)
+origin	https://github.com/aryan25801001-coder/vital_sync__.git (push)

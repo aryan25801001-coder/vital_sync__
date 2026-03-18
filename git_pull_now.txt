@@ -1,0 +1,49 @@
+From https://github.com/aryan25801001-coder/vital_sync__
+ * branch            main       -> FETCH_HEAD
+ * [new branch]      main       -> origin/main
+Auto-merging next.config.mjs
+CONFLICT (add/add): Merge conflict in next.config.mjs
+Auto-merging package.json
+CONFLICT (add/add): Merge conflict in package.json
+Auto-merging src/app/api/sync/referrals/route.ts
+CONFLICT (add/add): Merge conflict in src/app/api/sync/referrals/route.ts
+Auto-merging src/app/dashboard/page.tsx
+CONFLICT (add/add): Merge conflict in src/app/dashboard/page.tsx
+Auto-merging src/app/globals.css
+CONFLICT (add/add): Merge conflict in src/app/globals.css
+Auto-merging src/app/layout.tsx
+CONFLICT (add/add): Merge conflict in src/app/layout.tsx
+Auto-merging src/app/login/page.tsx
+CONFLICT (add/add): Merge conflict in src/app/login/page.tsx
+Auto-merging src/app/page.tsx
+CONFLICT (add/add): Merge conflict in src/app/page.tsx
+Auto-merging src/app/receiver/page.tsx
+CONFLICT (add/add): Merge conflict in src/app/receiver/page.tsx
+Auto-merging src/components/AmbulanceTracker.tsx
+CONFLICT (add/add): Merge conflict in src/components/AmbulanceTracker.tsx
+Auto-merging src/components/EmergencySidebar.tsx
+CONFLICT (add/add): Merge conflict in src/components/EmergencySidebar.tsx
+Auto-merging src/components/HospitalCard.tsx
+CONFLICT (add/add): Merge conflict in src/components/HospitalCard.tsx
+Auto-merging src/components/VitalSigns.tsx
+CONFLICT (add/add): Merge conflict in src/components/VitalSigns.tsx
+Auto-merging src/data/mockData.ts
+CONFLICT (add/add): Merge conflict in src/data/mockData.ts
+Auto-merging src/hooks/useSocket.ts
+CONFLICT (add/add): Merge conflict in src/hooks/useSocket.ts
+Auto-merging src/lib/algorithms/findOptimalHospital.ts
+CONFLICT (add/add): Merge conflict in src/lib/algorithms/findOptimalHospital.ts
+Auto-merging src/models/PatientRecord.ts
+CONFLICT (add/add): Merge conflict in src/models/PatientRecord.ts
+Auto-merging tailwind.config.ts
+CONFLICT (add/add): Merge conflict in tailwind.config.ts
+Auto-merging tsconfig.json
+CONFLICT (add/add): Merge conflict in tsconfig.json
+Rebasing (1/5)
+error: could not apply eadda00... Update: Advanced Manual Intake & Elite Readiness Checklist
+hint: Resolve all conflicts manually, mark them as resolved with
+hint: "git add/rm <conflicted_files>", then run "git rebase --continue".
+hint: You can instead skip this commit: run "git rebase --skip".
+hint: To abort and get back to the state before "git rebase", run "git rebase --abort".
+hint: Disable this message with "git config set advice.mergeConflict false"
+Could not apply eadda00... # Update: Advanced Manual Intake & Elite Readiness Checklist
