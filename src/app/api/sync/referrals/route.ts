@@ -8,8 +8,9 @@ export async function GET() {
     await dbConnect();
     const referrals = await ReferralHandshake.find({}).sort({ createdAt: -1 }).limit(10);
     return NextResponse.json(referrals);
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -32,8 +33,9 @@ export async function POST(request: Request) {
     });
     
     return NextResponse.json(newReferral);
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('API Error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

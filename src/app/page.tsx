@@ -48,7 +48,7 @@ const FEATURES = [
   {
     icon: Clock,
     title: 'Golden Hour Optimizer',
-    desc: "Every second counts. VitalSync's scoring penalizes distance and rewards available specialists to maximize golden hour outcomes.",
+    desc: "Every second counts. VitalSync&apos;s scoring penalizes distance and rewards available specialists to maximize golden hour outcomes.",
     color: '#ffd700',
   },
 ];
@@ -151,12 +151,10 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter mb-4"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              <span className="text-white">SAVING LIVES</span>
+            <h1 className="text-6xl md:text-8xl font-extrabold leading-none tracking-tight mb-4 text-slate-900">
+              SMART CARE
               <br />
-              <span className="text-white">AT THE</span>
-              <span className="gradient-text"> SPEED OF DATA</span>
+              DIGITAL <span className="text-blue-600">PRECISION</span>
             </h1>
           </motion.div>
 
@@ -240,7 +238,7 @@ export default function LandingPage() {
             </h2>
             <p className="text-slate-300 text-lg max-w-3xl mx-auto leading-relaxed">
               A trauma patient reaches Hospital A. Emergency team spends <strong className="text-red-400">47 critical minutes</strong> repeating CT scans
-              already done by the paramedics. They transfer to Hospital B — but Hospital B's neurosurgeon is off-duty.
+              already done by the paramedics. They transfer to Hospital B — but Hospital B&apos;s neurosurgeon is off-duty.
               They transfer again. By the time they reach the right specialist,
               the <strong className="text-white">Golden Hour has expired</strong>.
             </p>

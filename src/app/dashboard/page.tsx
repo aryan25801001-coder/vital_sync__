@@ -45,11 +45,11 @@ const CONDITION_MAP: Record<string, PatientCase> = {
 };
 
 const STATUS_CONFIG = {
-    pending: { label: 'PENDING', color: '#ffa500', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
-    accepted: { label: 'ACCEPTED', color: '#00ff88', bg: 'bg-green-500/10', border: 'border-green-500/30' },
-    'en-route': { label: 'EN ROUTE', color: '#00f5ff', bg: 'bg-cyan-500/10', border: 'border-cyan-500/30' },
-    arrived: { label: 'ARRIVED', color: '#a855f7', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
-    cancelled: { label: 'CANCELLED', color: '#ff3b6b', bg: 'bg-red-500/10', border: 'border-red-500/30' },
+    pending: { label: 'PENDING', color: '#d97706', bg: 'bg-orange-500/5', border: 'border-orange-500/20' },
+    accepted: { label: 'ACCEPTED', color: '#059669', bg: 'bg-emerald-500/5', border: 'border-emerald-500/20' },
+    'en-route': { label: 'EN ROUTE', color: '#2563eb', bg: 'bg-blue-500/5', border: 'border-blue-500/20' },
+    arrived: { label: 'ARRIVED', color: '#0d9488', bg: 'bg-teal-500/5', border: 'border-teal-500/20' },
+    cancelled: { label: 'CANCELLED', color: '#dc2626', bg: 'bg-red-500/5', border: 'border-red-500/20' },
 };
 
 export default function DashboardPage() {
@@ -234,33 +234,33 @@ export default function DashboardPage() {
     return (
         <div className="min-h-screen grid-bg flex flex-col">
             {/* Top Bar */}
-            <header className="border-b border-cyan-500/15 backdrop-blur-xl sticky top-0 z-50">
+            <header className="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
                 <div className="px-6 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <Link href="/" className="flex items-center gap-1 text-slate-400 hover:text-cyan-400 transition-colors text-sm">
+                        <Link href="/" className="flex items-center gap-1 text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium">
                             <ArrowLeft size={14} />
-                            Logout
+                            Exit System
                         </Link>
-                        <div className="w-px h-4 bg-slate-700" />
+                        <div className="w-px h-4 bg-slate-200" />
                         <div className="flex items-center gap-2">
-                            <Activity size={18} className="text-cyan-400" style={{ filter: 'drop-shadow(0 0 6px #00f5ff)' }} />
-                            <span className="font-black text-white">Vital<span className="text-cyan-400">Sync</span></span>
-                            <span className="text-xs text-slate-500 font-mono">EMERGENCY COMMAND</span>
+                            <Activity size={18} className="text-blue-600" />
+                            <span className="font-extrabold text-slate-900 tracking-tight">Vital<span className="text-blue-600">Sync</span></span>
+                            <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold">SENDER</span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-6 text-xs">
-                        <div className="flex items-center gap-1.5 font-bold text-cyan-400 border border-cyan-400/30 px-2 py-1 rounded bg-cyan-400/10">
-                            HOSPITAL A (SENDER)
+                        <div className="flex items-center gap-1.5 font-bold text-blue-700 border border-blue-200 px-2.5 py-1 rounded-full bg-blue-50">
+                            UNIT: EMERGENCY ALPHA
                         </div>
                         <div className="flex items-center gap-1.5">
-                            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                            <span className="text-green-400">SYSTEM ONLINE</span>
+                            <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                            <span className="text-emerald-600 font-bold">SERVER CONNECTED</span>
                         </div>
-                        <div suppressHydrationWarning className="font-mono text-cyan-300">{time.toLocaleTimeString()}</div>
+                        <div suppressHydrationWarning className="font-mono text-slate-500 bg-slate-50 px-2 py-1 rounded">{time.toLocaleTimeString()}</div>
                         <Link href="/receiver">
-                            <button className="border border-purple-500/40 bg-purple-500/10 text-purple-300 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-purple-500/20 transition-colors">
-                                Receiver View
+                            <button className="bg-teal-600 text-white px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-teal-700 transition-all shadow-sm">
+                                Switch to Receiver
                             </button>
                         </Link>
                     </div>
@@ -276,9 +276,9 @@ export default function DashboardPage() {
                         exit={{ height: 0, opacity: 0 }}
                         className="bg-green-500/15 border-b border-green-500/40 px-6 py-3 flex items-center gap-3"
                     >
-                        <CheckCircle size={16} className="text-green-400" />
-                        <span className="text-sm text-green-300 font-bold">REFERRAL HANDSHAKE INITIATED</span>
-                        <span className="text-sm text-slate-400">— Socket.io notification dispatched to receiving hospital. Pre-arrival packet being assembled...</span>
+                        <CheckCircle size={16} className="text-teal-600" />
+                        <span className="text-sm text-teal-700 font-bold">REFERRAL HANDSHAKE INITIATED</span>
+                        <span className="text-sm text-slate-500">— Secure clinical data handshake complete. Patient packet available for receiver.</span>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -290,10 +290,10 @@ export default function DashboardPage() {
                     {/* Quick Stats */}
                     <div className="grid grid-cols-4 gap-4">
                         {[
-                            { icon: AlertTriangle, label: 'Critical Cases', value: MOCK_PATIENTS.filter(p => p.severity === 'critical').length, color: '#ff3b6b' },
-                            { icon: Truck, label: 'En Route', value: activeReferrals.filter(r => r.status === 'en-route').length, color: '#00f5ff' },
-                            { icon: BedDouble, label: 'Available ICU', value: icuBeds, color: '#00ff88' },
-                            { icon: Globe, label: 'Hospitals Online', value: MOCK_HOSPITALS.length, color: '#a855f7' },
+                            { icon: AlertTriangle, label: 'Critical Cases', value: MOCK_PATIENTS.filter(p => p.severity === 'critical').length, color: '#0d9488' },
+                            { icon: Truck, label: 'En Route', value: activeReferrals.filter(r => r.status === 'en-route').length, color: '#0ea5e9' },
+                            { icon: BedDouble, label: 'Available ICU', value: icuBeds, color: '#0d9488' },
+                            { icon: Globe, label: 'Hospitals Online', value: MOCK_HOSPITALS.length, color: '#0ea5e9' },
                         ].map((stat, i) => (
                             <motion.div
                                 key={i}

@@ -1,0 +1,26 @@
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   git_commit.txt
+	new file:   git_push.txt
+	new file:   git_remote.txt
+	new file:   git_remote_show.txt
+	new file:   git_remote_test.txt
+	modified:   next.config.mjs
+	modified:   package-lock.json
+	new file:   remotes_guess.txt
+	modified:   src/app/api/sync/referrals/route.ts
+	modified:   src/app/dashboard/page.tsx
+	modified:   src/app/globals.css
+	modified:   src/app/page.tsx
+	modified:   src/app/receiver/page.tsx
+	modified:   src/components/VitalSigns.tsx
+	modified:   src/hooks/useSocket.ts
+	modified:   src/models/PatientRecord.ts
+	new file:   vercel_out_v5.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	git_log_now.txt
+	git_status_now.txt
+

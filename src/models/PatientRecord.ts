@@ -98,7 +98,7 @@ export interface IReferralHandshake extends Document {
     preArrivalPacketSent: boolean;
     urgencyLevel: 'critical' | 'high' | 'moderate';
     notes: string;
-    fullPatientData?: any;
+    fullPatientData?: Record<string, unknown>;
 }
 
 const ReferralHandshakeSchema = new Schema<IReferralHandshake>(

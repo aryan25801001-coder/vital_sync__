@@ -33,13 +33,13 @@ function VitalCard({ icon, label, value, unit, isAlert, color }: {
                     <AlertTriangle size={10} className="text-red-400 animate-pulse" />
                 </div>
             )}
-            <div className={`flex items-center gap-1 text-xs ${color}`}>
+            <div className={`flex items-center gap-1.5 text-xs ${color}`}>
                 {icon}
-                <span className="uppercase tracking-wider text-slate-500 text-xs">{label}</span>
+                <span className="uppercase tracking-widest text-slate-600 text-[10px] font-bold">{label}</span>
             </div>
-            <div className="flex items-baseline gap-1">
-                <span className={`text-2xl font-bold font-mono ${isAlert ? 'text-red-400' : color}`}>{value}</span>
-                <span className="text-xs text-slate-500">{unit}</span>
+            <div className="flex items-baseline gap-1 mt-0.5">
+                <span className={`text-2xl font-black font-mono tracking-tight ${isAlert ? 'text-red-600' : color}`}>{value}</span>
+                <span className="text-xs text-slate-500 font-medium">{unit}</span>
             </div>
         </motion.div>
     );
@@ -62,52 +62,52 @@ export default function VitalSigns({ vitals, severity }: VitalsProps) {
 
             <div className="grid grid-cols-3 gap-2">
                 <VitalCard
-                    icon={<Heart size={10} className="heartbeat" />}
+                    icon={<Heart size={12} className="heartbeat" />}
                     label="HR"
                     value={vitals.hr}
                     unit="bpm"
                     isAlert={vitals.hr > 110 || vitals.hr < 50}
-                    color="text-red-400"
+                    color="text-red-600"
                 />
                 <VitalCard
-                    icon={<Activity size={10} />}
+                    icon={<Activity size={12} />}
                     label="BP"
                     value={vitals.bp}
                     unit="mmHg"
                     isAlert={parseInt(vitals.bp) < 90}
-                    color="text-purple-400"
+                    color="text-purple-600"
                 />
                 <VitalCard
-                    icon={<Droplets size={10} />}
+                    icon={<Droplets size={12} />}
                     label="SpO2"
                     value={vitals.spo2}
                     unit="%"
                     isAlert={vitals.spo2 < 95}
-                    color="text-blue-400"
+                    color="text-blue-700"
                 />
                 <VitalCard
-                    icon={<Thermometer size={10} />}
+                    icon={<Thermometer size={12} />}
                     label="Temp"
                     value={vitals.temp}
                     unit="°C"
                     isAlert={vitals.temp > 38.5}
-                    color="text-orange-400"
+                    color="text-orange-600"
                 />
                 <VitalCard
-                    icon={<Wind size={10} />}
+                    icon={<Wind size={12} />}
                     label="RR"
                     value={vitals.rr}
                     unit="/min"
                     isAlert={vitals.rr > 25}
-                    color="text-teal-400"
+                    color="text-teal-600"
                 />
                 <VitalCard
-                    icon={<Brain size={10} />}
+                    icon={<Brain size={12} />}
                     label="GCS"
                     value={vitals.gcs}
                     unit="/15"
                     isAlert={vitals.gcs < 10}
-                    color="text-yellow-400"
+                    color="text-amber-600"
                 />
             </div>
 

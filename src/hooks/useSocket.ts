@@ -9,7 +9,7 @@ export interface Notification {
     timestamp: Date;
     urgency: 'critical' | 'high' | 'moderate';
     referralId?: string;
-    patientData?: any;
+    patientData?: Record<string, unknown>;
 }
 
 // Simulated real-time hook (Socket.io simulation for demo)
@@ -45,7 +45,7 @@ export function useRealtime() {
                         timestamp: new Date(latest.initiatedAt),
                         urgency: latest.urgencyLevel || 'high',
                         referralId: latest.referralId,
-                        patientData: latest.fullPatientData
+                        patientData: latest.fullPatientData as Record<string, unknown>
                     };
 
                     // Only add if it's new (check last notification ID to prevent duplicates)

@@ -113,30 +113,30 @@ export default function ReceiverPage() {
     return (
         <div className="min-h-screen grid-bg">
             {/* Top Bar */}
-            <header className="border-b border-purple-500/15 backdrop-blur-xl sticky top-0 z-50">
+            <header className="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
                 <div className="px-6 py-3 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <Link href="/" className="flex items-center gap-1 text-slate-400 hover:text-purple-400 transition-colors text-sm">
+                        <Link href="/" className="flex items-center gap-2 text-slate-600 hover:text-blue-700 transition-colors text-sm font-bold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
                             <ArrowLeft size={14} />
-                            Logout
+                            Exit System
                         </Link>
-                        <div className="w-px h-4 bg-slate-700" />
+                        <div className="w-px h-4 bg-slate-300" />
                         <div className="flex items-center gap-2">
-                            <Activity size={18} className="text-purple-400" />
-                            <span className="font-black text-white">Vital<span className="text-purple-400">Sync</span></span>
-                            <span className="text-xs text-slate-500 font-mono italic">RECEIVER NODE</span>
+                            <Activity size={18} className="text-blue-700" />
+                            <span className="font-extrabold text-slate-900 tracking-tight text-lg">Vital<span className="text-blue-600">Sync</span></span>
+                            <span className="text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded font-black tracking-widest uppercase ml-1">RECEIVER NODE</span>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-6 text-xs">
-                        <div className="flex items-center gap-1.5 font-bold text-purple-400 border border-purple-400/30 px-2 py-1 rounded bg-purple-400/10">
-                            HOSPITAL B (RECEIVER)
+                        <div className="flex items-center gap-1.5 font-black text-blue-700 border-2 border-blue-200 px-3 py-1.5 rounded-full bg-blue-50 tracking-wide">
+                            UNIT: TRAUMA CENTER
                         </div>
                         <div className="flex items-center gap-1.5">
-                            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                            <span className="text-green-400 font-mono text-[10px]">VITALS YNC CONNECTED</span>
+                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-emerald-700 font-black tracking-wide uppercase">ACTIVE SYNC</span>
                         </div>
-                        <div suppressHydrationWarning className="font-mono text-purple-300">{currentTime.toLocaleTimeString()}</div>
+                        <div suppressHydrationWarning className="font-mono text-slate-700 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg font-bold shadow-sm">{currentTime.toLocaleTimeString()}</div>
                     </div>
                 </div>
             </header>
@@ -147,12 +147,11 @@ export default function ReceiverPage() {
                     <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
-                        className="bg-purple-500/10 border-b border-purple-500/30 px-6 py-3 flex items-center gap-3"
+                        className="bg-teal-500/10 border-b border-teal-500/30 px-6 py-3 flex items-center gap-3"
                     >
-                        <Zap size={16} className="text-purple-400" />
-                        <span className="text-sm text-purple-300 font-bold">PRE-ARRIVAL PACKET RECEIVED</span>
-                        <span className="text-sm text-slate-400">— Patient vitals, imaging, and allergies synced via VitalSync FHIR bridge. Zero data entry required.</span>
-                        <CheckCircle size={14} className="text-green-400 ml-auto" />
+                        <CheckCircle size={16} className="text-teal-600" />
+                        <span className="text-sm text-teal-700 font-bold uppercase tracking-tight">Pre-arrival Clinical Packet Integrated</span>
+                        <span className="text-sm text-slate-500">— Patient vitals, imaging, and allergies synced. Zero manual data entry required.</span>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -202,14 +201,13 @@ export default function ReceiverPage() {
                         className={`glass-card p-6 flex flex-col items-center justify-center text-center ${isUrgent ? 'border-red-500/50' : 'border-purple-500/30'}`}
                     >
                         <div className="flex items-center gap-2 mb-3">
-                            <Truck size={14} className={isUrgent ? 'text-red-400' : 'text-purple-400'} />
-                            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Ambulance ETA</span>
+                            <Truck size={14} className={isUrgent ? 'text-red-600' : 'text-purple-600'} />
+                            <span className="text-xs font-bold uppercase tracking-widest text-slate-600">Ambulance ETA</span>
                         </div>
                         <div
                             className="text-6xl font-black font-mono"
                             style={{
-                                color: isUrgent ? '#ff3b6b' : '#a855f7',
-                                textShadow: isUrgent ? '0 0 30px rgba(255,59,107,0.8)' : '0 0 30px rgba(168,85,247,0.6)',
+                                color: isUrgent ? '#dc2626' : '#2563eb',
                             }}
                         >
                             {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
@@ -220,7 +218,7 @@ export default function ReceiverPage() {
                                 className="h-full rounded-full transition-all duration-1000"
                                 style={{
                                     width: `${100 - (countdown / 480) * 100}%`,
-                                    background: isUrgent ? '#ff3b6b' : '#a855f7',
+                                    background: isUrgent ? '#dc2626' : '#2563eb',
                                 }}
                             />
                         </div>
@@ -234,30 +232,30 @@ export default function ReceiverPage() {
                                     <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                                     <span className="text-xs text-red-400 font-bold uppercase tracking-widest">INCOMING CRITICAL PATIENT</span>
                                 </div>
-                                <h1 className="text-3xl font-black text-white">{activePatient.name}</h1>
-                                <div className="text-slate-400 text-sm mt-1">
-                                    Age {activePatient.age} · {activePatient.bloodType} · MRN: <span className="font-mono text-cyan-300">{activePatient.mrn || 'PENDING'}</span>
+                                <h1 className="text-3xl font-black text-slate-900">{activePatient.name}</h1>
+                                <div className="text-slate-600 text-sm mt-2 font-medium">
+                                    Age {activePatient.age} · Blood Group: <span className="font-bold text-slate-800">{activePatient.bloodType}</span> · MRN: <span className="font-mono text-blue-700 font-bold bg-blue-50 px-2 py-0.5 rounded">{activePatient.mrn || 'PENDING'}</span>
                                 </div>
                             </div>
                             <div className="flex flex-col items-end gap-1">
-                                <div className={`text-xs font-bold px-3 py-1 rounded-full border ${activePatient.severity === 'critical' ? 'border-red-500/50 text-red-400 bg-red-500/10 pulse-red' : 'border-orange-500/50 text-orange-400 bg-orange-500/10'}`}>
+                                <div className={`text-xs font-black px-3 py-1.5 rounded-full border-2 ${activePatient.severity === 'critical' ? 'border-red-500 text-red-700 bg-red-50 shadow-[0_0_10px_rgba(239,68,68,0.2)] pulse-red' : 'border-orange-500 text-orange-700 bg-orange-50'}`}>
                                     {activePatient.severity === 'critical' ? 'ESI LEVEL 1 — CRITICAL' : 'ESI LEVEL 2 — HIGH'}
                                 </div>
-                                <div className="text-xs text-slate-500">Triage Score: {activePatient.triageLevel || 1}</div>
+                                <div className="text-xs text-slate-600 font-bold mt-1">Triage Score: {activePatient.triageLevel || 1}</div>
                             </div>
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-sm">
+                        <div className="grid grid-cols-3 gap-4 text-sm mt-4">
                             <div>
-                                <div className="text-slate-500 text-xs mb-1">Condition</div>
-                                <div className="font-bold text-red-300">{activePatient.condition}</div>
+                                <div className="text-slate-600 text-xs font-semibold mb-1 uppercase tracking-wider">Condition</div>
+                                <div className="font-bold text-red-600 text-base">{activePatient.condition}</div>
                             </div>
                             <div>
-                                <div className="text-slate-500 text-xs mb-1">⚠️ Allergies</div>
-                                <div className="font-bold text-amber-400">{activePatient.allergies?.join(', ') || 'NKDA'}</div>
+                                <div className="text-slate-600 text-xs font-semibold mb-1 uppercase tracking-wider">⚠️ Allergies</div>
+                                <div className="font-bold text-amber-700 text-base">{activePatient.allergies?.join(', ') || 'NKDA'}</div>
                             </div>
                             <div>
-                                <div className="text-slate-500 text-xs mb-1">From Hospital</div>
-                                <div className="font-bold text-slate-300 text-xs">{activePatient.currentHospital}</div>
+                                <div className="text-slate-600 text-xs font-semibold mb-1 uppercase tracking-wider">From Hospital</div>
+                                <div className="font-bold text-slate-700 text-base">{activePatient.currentHospital}</div>
                             </div>
                         </div>
                     </div>
@@ -276,13 +274,17 @@ export default function ReceiverPage() {
                                     { name: 'ER_Report_Admission.pdf', type: 'ER Report', size: '1.4 MB', status: '✅ Synced' },
                                     { name: 'BloodWork_CBC_BMP.pdf', type: 'Lab Results', size: '0.8 MB', status: '✅ Synced' },
                                 ].map(f => (
-                                    <div key={f.name} className="flex items-center gap-2 bg-slate-800/40 rounded-lg px-3 py-2">
-                                        <FileText size={12} className="text-cyan-400" />
-                                        <div className="flex-1 min-w-0">
-                                            <div className="text-xs font-mono text-slate-300 truncate">{f.name}</div>
-                                            <div className="text-xs text-slate-500">{f.type} · {f.size}</div>
+                                    <div key={f.name} className="flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 hover:bg-white transition-colors shadow-sm">
+                                        <div className="bg-teal-100 p-2 rounded-lg">
+                                            <FileText size={16} className="text-teal-700" />
                                         </div>
-                                        <span className="text-xs text-green-400 flex-shrink-0">{f.status}</span>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="text-sm font-mono text-slate-900 font-bold truncate">{f.name}</div>
+                                            <div className="text-xs text-slate-600 font-medium">{f.type} · {f.size}</div>
+                                        </div>
+                                        <div className="flex flex-col items-end gap-1">
+                                            <span className="text-[10px] text-emerald-700 font-black bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 uppercase tracking-tighter">{f.status}</span>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -293,13 +295,13 @@ export default function ReceiverPage() {
                     <div className="glass-card p-5">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2">
-                                <Shield size={14} className="text-cyan-400" />
-                                <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest">Pre-Arrival Readiness</span>
+                                <Shield size={14} className="text-cyan-600" />
+                                <span className="text-xs font-bold text-cyan-700 uppercase tracking-widest">Pre-Arrival Readiness</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <div
                                     className="text-sm font-black font-mono"
-                                    style={{ color: readinessPct >= 75 ? '#00ff88' : readinessPct >= 50 ? '#ffa500' : '#ff3b6b' }}
+                                    style={{ color: readinessPct >= 75 ? '#059669' : readinessPct >= 50 ? '#d97706' : '#dc2626' }}
                                 >
                                     {readinessPct}%
                                 </div>
@@ -312,8 +314,7 @@ export default function ReceiverPage() {
                                 animate={{ width: `${readinessPct}%` }}
                                 className="h-full rounded-full transition-all"
                                 style={{
-                                    background: readinessPct >= 75 ? '#00ff88' : readinessPct >= 50 ? '#ffa500' : '#ff3b6b',
-                                    boxShadow: `0 0 8px ${readinessPct >= 75 ? '#00ff88' : '#ffa500'}`,
+                                    background: readinessPct >= 75 ? '#10b981' : readinessPct >= 50 ? '#f59e0b' : '#ef4444',
                                 }}
                             />
                         </div>
@@ -325,16 +326,16 @@ export default function ReceiverPage() {
                                     whileHover={{ scale: 1.01 }}
                                     onClick={() => toggleCheck(item.id)}
                                     className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all ${readinessChecked[item.id]
-                                        ? 'bg-green-500/10 border border-green-500/30'
-                                        : 'bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/20'
+                                        ? 'bg-emerald-50 border border-emerald-200'
+                                        : 'bg-white border border-slate-200 hover:border-teal-500/50 shadow-sm'
                                         }`}
                                 >
-                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${readinessChecked[item.id] ? 'border-green-400 bg-green-400' : 'border-slate-600'
+                                    <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-all ${readinessChecked[item.id] ? 'border-emerald-500 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.3)]' : 'border-slate-300 bg-slate-50'
                                         }`}>
-                                        {readinessChecked[item.id] && <CheckCircle size={12} className="text-black" />}
+                                        {readinessChecked[item.id] && <CheckCircle size={14} className="text-white" />}
                                     </div>
-                                    <span className="text-sm">{item.icon}</span>
-                                    <span className={`text-sm flex-1 ${readinessChecked[item.id] ? 'line-through text-slate-500' : 'text-slate-300'}`}>
+                                    <span className="text-base">{item.icon}</span>
+                                    <span className={`text-sm flex-1 font-bold ${readinessChecked[item.id] ? 'text-slate-400' : 'text-slate-900'}`}>
                                         {item.label}
                                     </span>
                                 </motion.div>
@@ -362,23 +363,27 @@ export default function ReceiverPage() {
                     className="glass-card p-6"
                 >
                     <div className="flex items-center gap-2 mb-4">
-                        <Brain size={14} className="text-purple-400" />
-                        <span className="text-xs font-bold text-purple-300 uppercase tracking-widest">AI-Generated Pre-Arrival Brief</span>
-                        <span className="ml-2 text-xs text-slate-500 bg-slate-800 px-2 py-0.5 rounded">Powered by VitalSync Protocol Engine</span>
+                        <Brain size={14} className="text-purple-600" />
+                        <span className="text-xs font-bold text-purple-700 uppercase tracking-widest">AI-Generated Pre-Arrival Brief</span>
+                        <span className="ml-2 text-[10px] text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded font-bold">Powered by VitalSync Protocol Engine</span>
                     </div>
                     <div className="grid md:grid-cols-3 gap-6 text-sm">
-                        <div>
-                            <h3 className="font-bold text-red-300 mb-2">⚠️ Critical Alerts</h3>
-                            <ul className="space-y-1 text-slate-400">
+                        <div className="bg-red-50/50 p-3 rounded-xl border border-red-100">
+                            <h3 className="font-extrabold text-red-700 mb-2 uppercase tracking-tight flex items-center gap-1.5">
+                                <AlertTriangle size={14} /> Critical Alerts
+                            </h3>
+                            <ul className="space-y-1.5 text-slate-800 font-medium">
                                 <li>• GCS score {activePatient.vitals.gcs} — severe trauma likely</li>
                                 <li>• SpO₂ {activePatient.vitals.spo2}% — supplemental O₂ required</li>
                                 <li>• BP {activePatient.vitals.bp} — hemodynamic monitoring needed</li>
                                 <li>• Allergy Flag: {activePatient.allergies?.join(', ') || 'NONE'}</li>
                             </ul>
                         </div>
-                        <div>
-                            <h3 className="font-bold text-amber-300 mb-2">🔬 Tests Already Done</h3>
-                            <ul className="space-y-1 text-slate-400">
+                        <div className="bg-amber-50/50 p-3 rounded-xl border border-amber-100">
+                            <h3 className="font-extrabold text-amber-800 mb-2 uppercase tracking-tight flex items-center gap-1.5">
+                                <Activity size={14} /> Tests Already Done
+                            </h3>
+                            <ul className="space-y-1.5 text-slate-800 font-medium">
                                 <li>✅ CT Head (Non-contrast) — Synced</li>
                                 <li>✅ CBC, BMP, Coagulation Panel</li>
                                 <li>✅ Blood Type & Cross-match (B+)</li>
@@ -386,9 +391,11 @@ export default function ReceiverPage() {
                                 <li>⏳ CT Chest/Abdomen — pending</li>
                             </ul>
                         </div>
-                        <div>
-                            <h3 className="font-bold text-green-300 mb-2">✅ Recommended Actions</h3>
-                            <ul className="space-y-1 text-slate-400">
+                        <div className="bg-emerald-50/50 p-3 rounded-xl border border-emerald-100">
+                            <h3 className="font-extrabold text-emerald-800 mb-2 uppercase tracking-tight flex items-center gap-1.5">
+                                <CheckCircle size={14} /> Recommended Actions
+                            </h3>
+                            <ul className="space-y-1.5 text-slate-800 font-medium">
                                 <li>• Neurosurgery consult IMMEDIATELY on arrival</li>
                                 <li>• Prepare OR for possible craniotomy</li>
                                 <li>• 2 large-bore IVs, transfusion protocol</li>
