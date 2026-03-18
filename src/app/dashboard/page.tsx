@@ -115,6 +115,8 @@ export default function DashboardPage() {
         setManualPatient({
             name: '',
             age: '',
+            bloodType: 'O+',
+            allergiesStr: '',
             condition: 'Trauma',
             severity: 'critical',
             hr: '80',
@@ -556,7 +558,7 @@ export default function DashboardPage() {
                             <div className="flex justify-between items-center mb-6">
                                 <h3 className="text-xl font-black text-white flex items-center gap-2">
                                     <Users className="text-cyan-400" size={20} />
-                                    MANUAL PATIENT INTAKE
+                                    ADVANCED MANUAL PATIENT INTAKE
                                 </h3>
                                 <button onClick={() => setShowManualForm(false)} className="text-slate-500 hover:text-white">
                                     <X size={20} />
@@ -583,9 +585,6 @@ export default function DashboardPage() {
                                             onChange={(e) => setManualPatient({ ...manualPatient, age: e.target.value })}
                                         />
                                     </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-1">
                                         <label className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Blood Type</label>
                                         <input
@@ -604,9 +603,6 @@ export default function DashboardPage() {
                                             onChange={(e) => setManualPatient({ ...manualPatient, allergiesStr: e.target.value })}
                                         />
                                     </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-1">
                                         <label className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Medical Condition</label>
                                         <select
@@ -654,8 +650,6 @@ export default function DashboardPage() {
                                         </div>
                                     </div>
                                 </div>
-
-
 
                                 <button
                                     type="submit"
