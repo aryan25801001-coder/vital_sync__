@@ -98,6 +98,7 @@ export interface IReferralHandshake extends Document {
     preArrivalPacketSent: boolean;
     urgencyLevel: 'critical' | 'high' | 'moderate';
     notes: string;
+    fullPatientData?: any;
 }
 
 const ReferralHandshakeSchema = new Schema<IReferralHandshake>(
@@ -133,6 +134,7 @@ const ReferralHandshakeSchema = new Schema<IReferralHandshake>(
         preArrivalPacketSent: { type: Boolean, default: false },
         urgencyLevel: { type: String, enum: ['critical', 'high', 'moderate'] },
         notes: { type: String },
+        fullPatientData: { type: Schema.Types.Mixed },
     },
     { timestamps: true }
 );

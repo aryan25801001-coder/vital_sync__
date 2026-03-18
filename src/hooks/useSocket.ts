@@ -9,6 +9,7 @@ export interface Notification {
     timestamp: Date;
     urgency: 'critical' | 'high' | 'moderate';
     referralId?: string;
+    patientData?: any;
 }
 
 // Simulated real-time hook (Socket.io simulation for demo)
@@ -39,11 +40,12 @@ export function useRealtime() {
                     const newNotif: Notification = {
                         id: latest.referralId || latest._id,
                         type: 'new_referral',
-                        title: '🚨 NEW SYNCED REFERRAL',
-                        message: `${latest.patientId} from ${latest.fromHospital?.name || 'Sender'} → ${latest.toHospital?.name || 'Receiver'}`,
+                        title: latest.toHospital?.name?.includes('Intake') ? '🚨 NEW PATIENT INTAKE' : '🚨 NEW SYNCED REFERRAL',
+                        message: `${latest.patientId} from ${latest.fromHospital?.name || 'Sender'} · ${latest.notes}`,
                         timestamp: new Date(latest.initiatedAt),
                         urgency: latest.urgencyLevel || 'high',
-                        referralId: latest.referralId
+                        referralId: latest.referralId,
+                        patientData: latest.fullPatientData
                     };
 
                     // Only add if it's new (check last notification ID to prevent duplicates)

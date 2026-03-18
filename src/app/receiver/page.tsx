@@ -18,27 +18,47 @@ export default function ReceiverPage() {
     const [packetReceived, setPacketReceived] = useState(false);
     const [countdown, setCountdown] = useState(480); // 8 min in seconds
     const [readinessChecked, setReadinessChecked] = useState<Record<string, boolean>>({});
+    const [incomingAlert, setIncomingAlert] = useState<any>(null);
+    const [showIncomingPopup, setShowIncomingPopup] = useState(false);
 
     useEffect(() => {
         if (notifications.length > 0) {
             const latest = notifications[0];
             if (latest.type === 'new_referral') {
-                // Find patient from mock or notification data
-                const p = MOCK_PATIENTS.find(p => p.id === latest.referralId) || {
-                    id: latest.referralId,
-                    name: 'Synced Patient',
-                    age: '??',
-                    bloodType: '??',
-                    condition: latest.message,
-                    vitals: { hr: 90, bp: '120/80', spo2: 98, gcs: 15 },
-                    severity: latest.urgency,
-                    allergies: [],
-                };
-                setActivePatient(p);
-                setActiveReferral({
-                    ...latest,
-                    fromHospital: latest.message.split('from ')[1]?.split(' →')[0] || 'Sender'
-                });
+                // Use detailed patient data if available (synced from sender)
+                if (latest.patientData) {
+                    setActivePatient(latest.patientData);
+                    setActiveReferral({
+                        id: latest.id,
+                        fromHospital: latest.patientData.currentHospital || 'Sender',
+                        status: 'pending',
+                        initiatedAt: latest.timestamp,
+                        eta: 15,
+                        urgency: latest.urgency
+                    });
+                    setPacketReceived(true);
+                    
+                    // Trigger visual alert
+                    setIncomingAlert(latest);
+                    setShowIncomingPopup(true);
+                } else {
+                    // Fallback to mock data search
+                    const p = MOCK_PATIENTS.find(p => p.id === latest.referralId) || {
+                        id: latest.referralId,
+                        name: 'Synced Patient',
+                        age: '??',
+                        bloodType: '??',
+                        condition: latest.message,
+                        vitals: { hr: 90, bp: '120/80', spo2: 98, gcs: 15 },
+                        severity: latest.urgency,
+                        allergies: [],
+                    };
+                    setActivePatient(p);
+                    setActiveReferral({
+                        ...latest,
+                        fromHospital: latest.message.split('from ')[1]?.split(' →')[0] || 'Sender'
+                    });
+                }
             }
         }
     }, [notifications]);
@@ -133,6 +153,40 @@ export default function ReceiverPage() {
                         <span className="text-sm text-purple-300 font-bold">PRE-ARRIVAL PACKET RECEIVED</span>
                         <span className="text-sm text-slate-400">— Patient vitals, imaging, and allergies synced via VitalSync FHIR bridge. Zero data entry required.</span>
                         <CheckCircle size={14} className="text-green-400 ml-auto" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Floating Incoming Alert Popup */}
+            <AnimatePresence>
+                {showIncomingPopup && (
+                    <motion.div
+                        initial={{ x: 400, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: 400, opacity: 0 }}
+                        className="fixed top-20 right-6 z-[100] w-96 glass-card p-0 overflow-hidden border-red-500/50 shadow-[0_0_40px_rgba(255,59,107,0.3)]"
+                    >
+                        <div className="bg-red-500/20 px-4 py-2 border-b border-red-500/30 flex justify-between items-center">
+                            <span className="text-[10px] font-black text-red-400 tracking-widest uppercase flex items-center gap-2">
+                                <Zap size={12} className="animate-pulse" />
+                                Urgent Sync Alert
+                            </span>
+                            <button onClick={() => setShowIncomingPopup(false)} className="text-slate-500 hover:text-white">
+                                <Zap size={14} />
+                            </button>
+                        </div>
+                        <div className="p-4">
+                            <h4 className="text-white font-bold text-lg mb-1">{incomingAlert?.patientData?.name || 'Incoming Patient'}</h4>
+                            <p className="text-xs text-slate-400 mb-3">{incomingAlert?.message}</p>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setShowIncomingPopup(false)}
+                                    className="flex-1 py-2 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-500 transition-all shadow-[0_0_15px_rgba(255,0,0,0.3)]"
+                                >
+                                    VIEW FULL CASE
+                                </button>
+                            </div>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

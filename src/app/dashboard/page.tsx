@@ -111,6 +111,22 @@ export default function DashboardPage() {
         setPatients(prev => [newPatient, ...prev]);
         setSelectedPatient(newPatient);
         setShowManualForm(false);
+
+        // SYNC TO BACKEND (Notify Receiver of new manual intake)
+        fetch('/api/sync/referrals', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id: newPatient.id,
+                patientId: newPatient.mrn,
+                fromHospital: newPatient.currentHospital,
+                toHospital: 'ALL (Intake notification)', // Broadcast that a patient is ready
+                status: 'pending',
+                urgency: newPatient.severity,
+                condition: newPatient.condition,
+                fullPatientData: newPatient
+            })
+        }).catch(err => console.error('Sync failed:', err));
         // Clear form
         setManualPatient({
             name: '',

@@ -27,7 +27,8 @@ export async function POST(request: Request) {
       status: body.status || 'pending',
       urgencyLevel: body.urgency || 'high',
       initiatedAt: new Date(),
-      notes: body.condition,
+      notes: body.condition || 'Manual Patient Entry',
+      fullPatientData: body.fullPatientData,
     });
     
     return NextResponse.json(newReferral);
