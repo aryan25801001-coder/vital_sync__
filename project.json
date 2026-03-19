@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_elIu1CgcNfDBaZtZkTclZ65dGX5c",
+  "orgId": "team_r6OGnCBzH5F3HJS5um1OQTz5",
+  "projectName": "vitalsync",
+  "settings": {
+    "createdAt": 1773785862390,
+    "framework": "nextjs",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "20.x"
+  }
+}
